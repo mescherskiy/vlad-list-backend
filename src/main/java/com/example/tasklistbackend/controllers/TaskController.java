@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://task-list-frontend-a6d1a79a0a38.herokuapp.com/")
 public class TaskController {
 
     private final TaskService taskService;
