@@ -1,13 +1,11 @@
 package com.example.tasklistbackend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -24,9 +22,13 @@ public class Task {
 
     private String label;
 
-    private String description;
-
     private String timestamp;
 
     private Boolean done;
+
+    private Boolean important;
+
+    private int orderIndex;
+
+
 }

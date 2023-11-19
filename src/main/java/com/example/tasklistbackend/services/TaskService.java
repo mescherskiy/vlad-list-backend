@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        return taskRepository.findAllByOrderByOrderIndexAsc();
     }
 
     public Task getTask(Long id) {
@@ -25,6 +26,7 @@ public class TaskService {
 
     public void createTask(Task task) {
         task.setDone(false);
+        task.setImportant(false);
         taskRepository.save(task);
     }
 
@@ -32,16 +34,32 @@ public class TaskService {
         Task updatedTask = taskRepository.findById(id).orElse(null);
         if (updatedTask != null) {
             updatedTask.setLabel(task.getLabel());
-            updatedTask.setDescription(task.getDescription());
             updatedTask.setTimestamp(task.getTimestamp());
             if (task.getDone() != null) {
                 updatedTask.setDone(task.getDone());
+            }
+            if (task.getImportant() != null) {
+                updatedTask.setImportant(task.getImportant());
             }
             taskRepository.save(updatedTask);
         }
     }
 
+    public void updateTaskOrder(List<Task> tasks) {
+        for (Task updatedTask : tasks) {
+            Optional<Task> optionalTask = taskRepository.findById(updatedTask.getId());
+            if (optionalTask.isPresent()) {
+                Task task = optionalTask.get();
+                task.setOrderIndex(updatedTask.getOrderIndex());
+                taskRepository.save(task);
+            }
+        }
+
+    }
+
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
+
+
 }

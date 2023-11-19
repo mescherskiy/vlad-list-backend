@@ -3,6 +3,7 @@ package com.example.tasklistbackend.controllers;
 import com.example.tasklistbackend.models.Task;
 import com.example.tasklistbackend.services.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://task-list-frontend-a6d1a79a0a38.herokuapp.com/")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class TaskController {
 
     private final TaskService taskService;
@@ -39,6 +40,16 @@ public class TaskController {
         return ResponseEntity.ok("Task updated successfully");
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateAllTasks(@RequestBody List<Task> tasks) {
+        try {
+            taskService.updateTaskOrder(tasks);
+            return ResponseEntity.ok("Tasks updated successfully");
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating tasks order: " + e.getMessage());
+        }
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
