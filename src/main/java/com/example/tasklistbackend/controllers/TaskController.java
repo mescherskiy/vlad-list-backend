@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://vlad-list-frontend-7f96262457c5.herokuapp.com/")
+@CrossOrigin(origins = "https://vlad-list-frontend-7f96262457c5.herokuapp.com")
 public class TaskController {
 
     private final TaskService taskService;
